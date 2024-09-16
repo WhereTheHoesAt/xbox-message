@@ -118,7 +118,9 @@ export class XboxMessage extends TypedEmitter<MessageEvents> {
 
     const userIds = Array.from(new Set(conversations.conversations.flatMap(c => c.participants)))
 
-    await this.users.fetchMany(userIds)
+    if (userIds.length > 0) {
+      await this.users.fetchMany(userIds)
+    }
 
     await this.ws.connect()
   }
