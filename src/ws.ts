@@ -452,13 +452,13 @@ export class WebsocketManager {
   private onMessage(res: Data) {
 
     if (!(typeof res === 'string')) {
-      debug('Recieved non-string message', res)
+      debug('received non-string message', res)
       return
     }
 
     const event = JSON.parse(res) as GatewayEventResponse
 
-    debug('Recieved message', res)
+    debug('received message', res)
 
     this.client.emit('event', event)
 

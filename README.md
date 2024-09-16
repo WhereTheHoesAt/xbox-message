@@ -2,7 +2,7 @@
 [![NPM version](https://img.shields.io/npm/v/xbox-message.svg)](http://npmjs.com/package/xbox-message)
 [![Discord](https://img.shields.io/badge/chat-on%20discord-brightgreen.svg)](https://discord.gg/KTyd9HWuBD)
 
-A library for interacting with the Xbox Message service. Creates a connection to the Xbox Message service and allows you to send and recieve messages in real-time.
+A library for interacting with the Xbox Message service. Creates a connection to the Xbox Message service and allows you to send and receive messages in real-time.
 
 # Installation
 ```shell
@@ -29,9 +29,9 @@ const client = new XboxMessage();
 
 A list of events that can be emitted by the XboxMessage class can be found below.
 
-- 'message' - emitted when a message is recieved
+- 'message' - emitted when a message is received
 - 'messageDelete' - emitted when a message is deleted
-- 'event' - emitted when an event has been recieved from a subscribed resource
+- 'event' - emitted when an event has been received from a subscribed resource
 
 ```js
 client.on('message', (message) => {
