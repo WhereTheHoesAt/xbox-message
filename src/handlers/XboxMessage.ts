@@ -4,7 +4,7 @@ import { Message } from '../classes/Message'
 
 import { GatewayXboxMessageResponse, GatewayXboxMessageContentMessage, GatewayXboxMessageJoinChatChannel } from '../ws'
 
-export default (client: XboxMessage, event: GatewayXboxMessageResponse) => {
+export default async (client: XboxMessage, event: GatewayXboxMessageResponse) => {
 
   if (event.payload.type === PayloadType.ContentMessage) {
 
@@ -13,6 +13,10 @@ export default (client: XboxMessage, event: GatewayXboxMessageResponse) => {
     if (message.isDeleted) {
       client.emit('messageDelete', message)
       return
+    }
+
+    if (!message.conversation) {
+      await client.conversations.fetch(event.payload.conversationId, event.payload.conversationType)
     }
 
     client.emit('message', message)
