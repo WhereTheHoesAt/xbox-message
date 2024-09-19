@@ -273,6 +273,17 @@ export interface RestGetGroupResponse {
   group: APIGroup;
 }
 
+export interface RestGetProfileSettingsResponse {
+  profileUsers: {
+    id: string;
+    hostId: string;
+    settings: any[];
+    isSponsoredUser: boolean;
+  }[];
+}
+
+const isXuid = (xuid: string) => /^\d{16}$/.test(xuid)
+
 export class Rest {
 
   public client: XboxMessage
@@ -304,6 +315,18 @@ export class Rest {
     return res.AuthKey
   }
 
+  async getXuid(gamertag: string) {
+    const response = await this.get<RestGetProfileSettingsResponse>(`https://profile.xboxlive.com/users/gt(${gamertag})/profile/settings`)
+      .then(e => e.profileUsers[0].id)
+
+    return response
+  }
+
+  /**
+   * Get a user's profile
+   * @param identifier The XUID or Gamertag of the user
+   * @returns The user's profile
+  */
   async getProfile(xuid: string) {
     const response = await this.get<RestGetProfileResponse>(`https://peoplehub.xboxlive.com/users/me/people/xuids(${xuid})/decoration/detail,preferredColor,presenceDetail,avatar`)
       .then(e => e.people[0])
