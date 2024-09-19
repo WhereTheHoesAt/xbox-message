@@ -282,8 +282,6 @@ export interface RestGetProfileSettingsResponse {
   }[];
 }
 
-const isXuid = (xuid: string) => /^\d{16}$/.test(xuid)
-
 export class Rest {
 
   public client: XboxMessage
