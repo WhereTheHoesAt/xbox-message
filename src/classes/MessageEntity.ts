@@ -39,10 +39,15 @@ export class MessageEntity {
 
       res = await this.client.rest.sendMessageToGroup(this.group.id, '0', messagePayload.body)
     }
-    else if (this instanceof OneToOneConversation) {
-      if (!this.recipientId) throw new XboxMessageError(XboxMessageErrorCodes.MessageRecipientNotFound)
+    else if (this instanceof OneToOneConversation || this instanceof User) {
 
-      res = await this.client.rest.sendMessageToPlayer(this.recipientId, messagePayload.body)
+      const id = this instanceof OneToOneConversation
+        ? this.recipientId
+        : this.id
+
+      if (!id) throw new XboxMessageError(XboxMessageErrorCodes.MessageRecipientNotFound)
+
+      res = await this.client.rest.sendMessageToPlayer(id, messagePayload.body)
     }
 
     if (!res?.messageId) {
