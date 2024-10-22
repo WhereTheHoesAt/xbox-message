@@ -9,7 +9,7 @@ import { UnknownPart } from './UnknownPart'
 import { WeblinkPart } from './WeblinkPart'
 import { FeedItemPart } from './FeedItemPart'
 import { WeblinkMediaPart } from './WeblinkMediaPart'
-import { DirectMentionPart } from './DirectMention'
+import { DirectMentionPart } from './DirectMentionPart'
 
 export class BasePart {
 
