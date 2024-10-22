@@ -29,7 +29,7 @@ export class BaseConversation extends MessageEntity {
 
     this.client = client
 
-    this.messages = new MessageManager(this.client)
+    this.messages = new MessageManager(this)
 
     this.id = data.conversationId
 

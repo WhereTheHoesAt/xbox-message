@@ -68,11 +68,7 @@ export class MessageEntity {
       throw new XboxMessageError(XboxMessageErrorCodes.ConversationNotFound)
     }
 
-    const message = await conversation.messages.fetch(res.messageId, res.conversationId, conversationType)
-
-    if (!message) {
-      throw new XboxMessageError(XboxMessageErrorCodes.MessageNotFound)
-    }
+    const message = await conversation.messages.fetch(res.messageId)
 
     return message
   }

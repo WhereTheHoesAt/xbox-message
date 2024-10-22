@@ -1,6 +1,6 @@
 import { Collection } from '@discordjs/collection'
 
-import { ConversationType, XboxMessage } from '../..'
+import { Conversation, XboxMessage, XboxMessageError, XboxMessageErrorCodes } from '../..'
 
 import { Message } from '../Message'
 import { APIMessage } from '../../rest'
@@ -9,25 +9,32 @@ export class MessageManager {
 
   public client: XboxMessage
 
+  public conversation: Conversation
+
   public cache = new Collection<string, Message>()
 
-  constructor(client: XboxMessage) {
+  constructor(conversation: Conversation) {
 
-    this.client = client
+    this.client = conversation.client
+
+    this.conversation = conversation
 
   }
 
-  async fetch(id: string, conversationId: string, conversationType: ConversationType): Promise<Message | null> {
+  async fetch(id: string) {
     const existing = this.cache.get(id)
 
     if (existing) return existing
 
-    const data = await this.client.rest.getConversation(conversationType, conversationId)
-      .then(data => data.messages.find(m => m.messageId === id))
+    const data = await this.client.rest.getConversation(this.conversation.type, this.conversation.id)
 
-    if (!data) return null
+    const message = data.messages.reduce((_data, message) => _data.set(message.messageId, this.add(message, true)), new Collection<string, Message>()).get(id)
 
-    return this.add(data, true)
+    if (!message) {
+      throw new XboxMessageError(XboxMessageErrorCodes.MessageNotFound)
+    }
+
+    return message
   }
 
   add(data: APIMessage, cache = true, { id }: { id?: string } = {}) {
