@@ -130,3 +130,33 @@ export class XboxMessage extends TypedEmitter<MessageEvents> {
   }
 
 }
+
+export * from './ws'
+export * from './rest'
+
+export * from './classes/errors/XboxMessageError'
+
+export * from './classes/managers/UserManager'
+export * from './classes/managers/ConversationManager'
+export * from './classes/managers/GroupManager'
+export * from './classes/managers/MessageManager'
+
+export * from './classes/MessagePayload'
+export * from './classes/MessageEntity'
+export * from './classes/Message'
+export * from './classes/User'
+export * from './classes/Group'
+
+export * from './classes/Conversation/BaseConversation'
+export * from './classes/Conversation/GroupConversation'
+export * from './classes/Conversation/OneToOneConversation'
+
+export * from './classes/Parts/BasePart'
+export * from './classes/Parts/DirectMentionPart'
+export * from './classes/Parts/FeedItemPart'
+export * from './classes/Parts/ImagePart'
+export * from './classes/Parts/TextPart'
+export * from './classes/Parts/UnknownPart'
+export * from './classes/Parts/VoicePart'
+export * from './classes/Parts/WeblinkMediaPart'
+export * from './classes/Parts/WeblinkPart'
