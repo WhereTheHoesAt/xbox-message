@@ -42,7 +42,7 @@ export class User extends MessageEntity {
   }
 
   get conversation() {
-    return Array.from(this.client.conversations.cache.values()).find(g => g instanceof OneToOneConversation && g.recipientId === this.id)
+    return this.client.conversations.cache.find(g => g instanceof OneToOneConversation && g.recipientId === this.id)
   }
 
   async fetch(force = true) {
