@@ -6,7 +6,7 @@ import { ImagePart } from './Parts/ImagePart'
 import { UnknownPart } from './Parts/UnknownPart'
 import { WeblinkPart } from './Parts/WeblinkPart'
 import { FeedItemPart } from './Parts/FeedItemPart'
-import { DirectMentionPart } from './Parts/DirectMention'
+import { DirectMentionPart } from './Parts/DirectMentionPart'
 import { WeblinkMediaPart } from './Parts/WeblinkMediaPart'
 
 import { User } from './User'
