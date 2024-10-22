@@ -19,6 +19,8 @@ export default async (client: XboxMessage, event: GatewayXboxMessageResponse) =>
       await client.conversations.fetch(event.payload.conversationId, event.payload.conversationType)
     }
 
+    message.conversation?.messages.cache.set(message.id, message)
+
     client.emit('message', message)
 
   }
