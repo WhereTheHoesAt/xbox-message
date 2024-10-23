@@ -21,14 +21,25 @@ export class MessageManager {
 
   }
 
-  async fetch(id: string) {
+  async fetch(id: string): Promise<Message>;
+  async fetch(): Promise<Collection<string, Message>>;
+  async fetch(id?: string) {
+    if (id) return this.fetchSingle(id)
+    return this.fetchMany()
+  }
+
+  private async fetchMany() {
+    const data = await this.client.rest.getConversation(this.conversation.type, this.conversation.id)
+
+    return data.messages.reduce((_data, message) => _data.set(message.messageId, this.add(message, true)), new Collection<string, Message>())
+  }
+
+  private async fetchSingle(id: string) {
     const existing = this.cache.get(id)
 
     if (existing) return existing
 
-    const data = await this.client.rest.getConversation(this.conversation.type, this.conversation.id)
-
-    const message = data.messages.reduce((_data, message) => _data.set(message.messageId, this.add(message, true)), new Collection<string, Message>()).get(id)
+    const message = (await this.fetchMany()).get(id)
 
     if (!message) {
       throw new XboxMessageError(XboxMessageErrorCodes.MessageNotFound)
