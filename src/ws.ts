@@ -1,7 +1,7 @@
 import debugFn from 'debug'
 import { WebSocket, type Data } from 'ws'
 
-import { ChannelType, ConversationType, MessageType, PartContentType, PayloadType, XboxMessage } from '.'
+import { ChannelType, ConversationType, MessageType, PartContentType, PayloadType, PushNotificationType, SubscriptionCategory, SubscriptionType, XboxMessage } from '.'
 
 import handlers from './handlers'
 import { XboxMessageError, XboxMessageErrorCodes } from './classes/errors/XboxMessageError'
@@ -116,7 +116,6 @@ export type GatewayJoinChannelResponse = BaseGatewayEvent & {
   connectionId: string;
 };
 
-
 export type GatewayLeaveChannelResponse = BaseGatewayEvent & {
   messageType: MessageType.LeaveChannel;
   messageId: string;
@@ -133,6 +132,15 @@ export type GatewayWhoAmIResponse = BaseGatewayEvent & {
   serverNonce: string;
 };
 
+export type GatewayNotificationInboxResponse = BaseGatewayEvent & {
+  messageType: MessageType.NotificationInbox;
+  messageId: string;
+  channel: GatewayChannelNotificationInboxMessage;
+  flagServerOriginated: true;
+  PushNotificationType: PushNotificationType;
+  PushNotification: GatewayPushNotification;
+};
+
 export type GatewayEventResponse =
   | GatewayXboxMessageResponse
   | GatewayUserInfoResponse
@@ -142,6 +150,7 @@ export type GatewayEventResponse =
   | GatewayJoinChannelResponse
   | GatewayLeaveChannelResponse
   | GatewayWhoAmIResponse
+  | GatewayNotificationInboxResponse
 
 export type GatewayWhoAmIRequest = {
   messageType: MessageType.WhoAmI;
@@ -171,6 +180,11 @@ export type GatewayChannelXboxMessage = {
 
 export type GatewayChannelGroupMessage = {
   type: ChannelType.GroupMessage;
+  id: string;
+};
+
+export type GatewayChannelNotificationInboxMessage = {
+  type: ChannelType.NotificationInbox;
   id: string;
 };
 
@@ -303,6 +317,57 @@ export type GatewayContentPayload = {
   clock: string;
   isDeleted: boolean;
   isServerUpdated: boolean;
+};
+
+export type GatewayBaseActor = {
+  ClassicGamertag: string;
+  ModernGamertag: string;
+  ModernGamertagSuffix: string;
+  UniqueModernGamertag: string;
+  Name: string;
+  Id: string;
+  Type: number;
+};
+
+export type GatewaySubscription = {
+  SubscriptionCategory: SubscriptionCategory;
+  SubscriptionType: SubscriptionType;
+  SubscriptionId: string;
+}
+
+export type GatewayPushNotification = GatewaySubscription & {
+  Action: GatewaySubscription & {
+    Actor: GatewayBaseActor;
+    ActionId: string;
+    ActionTime: string;
+    LaunchInfo: {
+      mpsdHandleId: string;
+      expirationTime: string;
+    };
+  };
+  NotificationOptions: {
+    Location: GatewayBaseActor;
+    LocalizationInfo?: {
+      xuid: string;
+      titleId: string | null;
+    };
+    LaunchInfo?: {
+      mpsdHandleId: string;
+      expirationTime: string;
+    };
+  };
+  Image: string;
+  ImageType: number;
+  InboxOptions: {
+    CountOptions: {
+      InboxProvidesCount: boolean;
+      ResetCountOnRead: boolean;
+    };
+    ImageOptions: {
+      UseActorImage: boolean;
+    };
+    ExpiresAfterMinutes: number;
+  };
 };
 
 export class WebsocketManager {

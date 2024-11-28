@@ -14,6 +14,8 @@ import XboxMessageHandler from './XboxMessage'
 
 import LeaveChannelHandler from './LeaveChannel'
 
+import NotificationInboxHandler from './NotificationInbox'
+
 import { MessageType, XboxMessage } from '..'
 
 const handlers: Record<MessageType, (client: XboxMessage, event: any) => void> = {
@@ -25,6 +27,7 @@ const handlers: Record<MessageType, (client: XboxMessage, event: any) => void> =
   [MessageType.XboxMessage]: XboxMessageHandler,
   [MessageType.BasicText]: BasicTextHandler,
   [MessageType.LeaveChannel]: LeaveChannelHandler,
+  [MessageType.NotificationInbox]: NotificationInboxHandler
 }
 
 export default handlers

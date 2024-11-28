@@ -6,6 +6,7 @@ export enum ChannelType {
   System = 'System',
   GroupMessage = 'GroupMessage',
   XboxMessage = 'XboxMessage',
+  NotificationInbox = 'NotificationInbox'
 }
 
 export enum PayloadType {
@@ -28,6 +29,7 @@ export enum MessageType {
   Horizons = 'Horizons',
   XboxMessage = 'XboxMessage',
   NoOp = 'NoOp',
+  NotificationInbox = "NotificationInbox"
 }
 
 export enum PartContentType {
@@ -38,6 +40,18 @@ export enum PartContentType {
   WeblinkMedia = 'weblinkMedia',
   Voice = 'voice',
   DirectMention = 'directMention',
+}
+
+export enum PushNotificationType {
+  NewAction = 'NewAction'
+}
+
+export enum SubscriptionType {
+  PartyInvites = 'PartyInvites'
+}
+
+export enum SubscriptionCategory {
+  Multiplayer = "Microsoft.Xbox.Multiplayer"
 }
 
 export type XboxMessageOptions = {
