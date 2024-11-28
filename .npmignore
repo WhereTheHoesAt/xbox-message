@@ -7,5 +7,4 @@ node_modules/
 HISTORY.md
 tsconfig.json
 examples/
-src/
 *-cache.json
